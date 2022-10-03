@@ -92,4 +92,14 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
+//DELETE attendee by id
+router.delete('/:id', function (req, res) {
+    primarydata.findByIdAndRemove({_id: req.params.id})
+    .exec()
+    .then(doc => {
+        if (!doc) {return res.status(404).send({error: "ID not found"});}
+        return res.send("ID successfully removed");
+    })
+})
+
 module.exports = router;

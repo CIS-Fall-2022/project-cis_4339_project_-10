@@ -124,13 +124,4 @@ router.put("/addAttendee/:id", (req, res, next) => {
     
 });
 
-//DELETE event by id
-router.delete('/:id', function (req, res) {
-    eventdata.findByIdAndRemove({_id: req.params.id})
-    .then(error => {
-        if (!error) {return res.status(404).send({error: "ID not found"});}
-        return res.send("Event successfully removed");
-    })
-})
-
 module.exports = router;

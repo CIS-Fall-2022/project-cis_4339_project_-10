@@ -20,3 +20,7 @@ ORGID = <ORGID> e.g UH
 ```
 npm start
 ```
+### API Documentation
+```
+https://documenter.getpostman.com/view/19675450/2s83zdxSAs
+```

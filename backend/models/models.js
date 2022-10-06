@@ -84,9 +84,13 @@ let eventDataSchema = new Schema({
     description: {
         type: String,
     },
-    attendees: [{
-        type: String
-    }]
+    attendees: {
+        type: Array
+    },
+    organization_id: {
+        type: String,
+        required: true
+    }
 }, {
     collection: 'eventData'
 });

@@ -4,10 +4,12 @@ const router = express.Router();
 //importing data model schemas
 let { primarydata } = require("../models/models"); 
 let { eventdata } = require("../models/models"); 
+let organization = process.env.ORGID
 
 //GET all entries
 router.get("/", (req, res, next) => { 
     primarydata.find( 
+        {'organization_id' : organization}, 
         (error, data) => {
             if (error) {
                 return next(error);
@@ -15,13 +17,14 @@ router.get("/", (req, res, next) => {
                 res.json(data);
             }
         }
-    ).sort({ 'updatedAt': -1 }).limit(10);
+    ).sort({ 'updatedAt': -1}).limit(10);
 });
 
 //GET single entry by ID
 router.get("/id/:id", (req, res, next) => {
-    primarydata.find( 
-        { _id: req.params.id }, 
+    primarydata.find(
+        { _id: req.params.id, 
+            organization_id : organization },
         (error, data) => {
             if (error) {
                 return next(error);
@@ -37,13 +40,14 @@ router.get("/id/:id", (req, res, next) => {
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
     if (req.query["searchBy"] === 'name') {
-        dbQuery = { firstName: { $regex: `^${req.query["firstName"]}`, $options: "i" }, lastName: { $regex: `^${req.query["lastName"]}`, $options: "i" } }
+        dbQuery = { firstName: { $regex: `^${req.query["firstName"]}`, $options: "i" }, 
+                lastName: { $regex: `^${req.query["lastName"]}`, $options: "i" }, organization_id : organization }
     } else if (req.query["searchBy"] === 'number') {
         dbQuery = {
             "phoneNumbers.primaryPhone": { $regex: `^${req.query["phoneNumbers.primaryPhone"]}`, $options: "i" }
         }
     };
-    primarydata.find( 
+    primarydata.find(
         dbQuery, 
         (error, data) => { 
             if (error) {
@@ -79,8 +83,8 @@ router.post("/", (req, res, next) => {
 
 //PUT update (make sure req body doesn't have the id)
 router.put("/:id", (req, res, next) => { 
-    primarydata.findOneAndUpdate( 
-        { _id: req.params.id }, 
+    primarydata.findOneAndUpdate(  
+        { _id: req.params.id, organization_id : organization }, 
         req.body,
         (error, data) => {
             if (error) {
@@ -94,7 +98,7 @@ router.put("/:id", (req, res, next) => {
 
 //DELETE attendee by id
 router.delete('/:id', function (req, res) {
-    primarydata.findByIdAndRemove({_id: req.params.id})
+    primarydata.findByIdAndRemove({_id: req.params.id, organization_id : organization})
     .then(error => {
         if (!error) {return res.status(404).send({error: "ID not found"});}
         return res.send("ID successfully removed");

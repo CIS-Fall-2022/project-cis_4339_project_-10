@@ -5,6 +5,10 @@ const router = express.Router();
 let { eventdata } = require("../models/models"); 
 let organization = process.env.ORGID
 
+//Current Date 
+let currentdate = new Date(Date());
+let moddate = new Date(Date());
+
 //GET all entries
 router.get("/", (req, res, next) => { 
     eventdata.find(
@@ -17,6 +21,21 @@ router.get("/", (req, res, next) => {
             }
         }
     ).sort({ 'updatedAt': -1 }).limit(10);
+});
+
+//GET all entries from 2 months ago 
+moddate.setMonth(currentdate.getMonth() - 2);
+router.get("/historical/", (req, res, next) => { 
+    eventdata.find( 
+        {organization_id : organization,
+            date : { $gte : moddate }}, 
+        (error, data) => {
+            if (error) {
+                return next(error);
+            } else {
+                res.json(data);
+            }
+        })
 });
 
 //GET single entry by ID

@@ -40,6 +40,10 @@ let primaryDataSchema = new Schema({
         zip: {
             type: String,
         }
+    },
+    organization_id: {
+        type: String,
+        required: true
     }
 }, {
     collection: 'primaryData',

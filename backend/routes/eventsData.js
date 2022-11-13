@@ -3,6 +3,8 @@ const router = express.Router();
 
 //importing data model schemas
 let { eventdata } = require("../models/models"); 
+
+// dot env orgID imported
 let organization = process.env.ORGID
 
 //Current Date 
@@ -23,19 +25,23 @@ router.get("/", (req, res, next) => {
     ).sort({ 'updatedAt': -1 }).limit(10);
 });
 
-//GET all entries from 2 months ago 
-moddate.setMonth(currentdate.getMonth() - 2);
+//GET count of all attendees per event for past 2 months 
+// moddate finds date of 2 months ago
+moddate.setMonth(currentdate.getMonth() - 2); 
 router.get("/historical/", (req, res, next) => { 
-    eventdata.find( 
-        {organization_id : organization,
-            date : { $gte : moddate }}, 
+    eventdata.aggregate([ 
+        {$match: {"organization_id" : "organization", "date" : { $gte : moddate }}},
+            // query section for attendee count, returns number
+            {atttendeeCount: {
+                $size: "$attendees"
+            }},  
         (error, data) => {
             if (error) {
                 return next(error);
             } else {
                 res.json(data);
             }
-        })
+        }])
 });
 
 //GET single entry by ID

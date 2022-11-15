@@ -76,7 +76,7 @@ export default {
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
         this.labels = response.data.map((item) => item.eventName);
-        this.attendees = response.data.map((item) => item.attendees);
+        this.attendees = response.data.map((item) => item.NumberAttendees);
       } catch (err) {
         if (err.response) {
           // client received an error response (5xx, 4xx)

@@ -328,7 +328,7 @@ export default {
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           <div class="flex justify-between mt-10 mr-20">
             <button
-              @click="handleClientUpdate"
+              @click="handleClientDelete"
               type="submit"
               class="bg-red-700 text-white rounded"
               >Delete Client</button>

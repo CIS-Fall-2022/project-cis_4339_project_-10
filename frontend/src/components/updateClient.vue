@@ -324,12 +324,20 @@ export default {
         </div>
 
         <!-- grid container -->
+        <!-- Buttons for Delete, Update, and Return-->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           <div class="flex justify-between mt-10 mr-20">
             <button
               @click="handleClientUpdate"
               type="submit"
               class="bg-red-700 text-white rounded"
+              >Delete Client</button>
+          </div>
+          <div class="flex justify-between mt-10 mr-20">
+            <button
+              @click="handleClientUpdate"
+              type="submit"
+              class="bg-green-700 text-white rounded"
             >Update Client</button>
           </div>
           <div class="flex justify-between mt-10 mr-20">

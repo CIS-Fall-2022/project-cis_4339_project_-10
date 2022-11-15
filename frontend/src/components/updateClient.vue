@@ -104,6 +104,16 @@ export default {
         });
       });
     },
+    //Get the ID and delete the client while giving a message
+    handleClientDelete() {
+      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/${this.id}`;
+      axios.delete(apiURL, this.client).then(() => {
+        alert("Client has been deleted.");
+        this.$router.back().catch((error) => {
+          console.log(error);
+        });
+      });
+    },
     addToEvent() {
       this.eventsChosen.forEach((event) => {
         let apiURL =
@@ -312,7 +322,7 @@ export default {
           <!-- form field -->
           <div class="flex flex-col">
             <label class="block">
-              <span class="text-gray-700">Zip Code</span>
+              <span class="text-gray-700">ZIP Code</span>
               <input
                 type="text"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -324,12 +334,20 @@ export default {
         </div>
 
         <!-- grid container -->
+        <!-- Buttons for Delete, Update, and Return-->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+          <div class="flex justify-between mt-10 mr-20">
+            <button
+              @click="handleClientDelete"
+              type="submit"
+              class="bg-red-700 text-white rounded"
+              >Delete Client</button>
+          </div>
           <div class="flex justify-between mt-10 mr-20">
             <button
               @click="handleClientUpdate"
               type="submit"
-              class="bg-red-700 text-white rounded"
+              class="bg-green-700 text-white rounded"
             >Update Client</button>
           </div>
           <div class="flex justify-between mt-10 mr-20">

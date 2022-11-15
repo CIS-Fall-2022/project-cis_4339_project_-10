@@ -6,7 +6,7 @@ let { primarydata } = require("../models/models");
 let { eventdata } = require("../models/models"); 
 let organization = process.env.ORGID
 
-//GET all entries
+//GET all clients
 router.get("/", (req, res, next) => { 
     primarydata.find( 
         {'organization_id' : organization}, 
@@ -20,7 +20,7 @@ router.get("/", (req, res, next) => {
     ).sort({ 'updatedAt': -1}).limit(10);
 });
 
-//GET single entry by ID
+//GET single client entry by ID
 router.get("/id/:id", (req, res, next) => {
     primarydata.find(
         { _id: req.params.id, 
@@ -35,7 +35,7 @@ router.get("/id/:id", (req, res, next) => {
     );
 });
 
-//GET entries based on search query
+//GET clients based on search query
 //Ex: '...?firstName=Bob&lastName=&searchBy=name' 
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
@@ -73,7 +73,7 @@ router.get("/events/:id", (req, res, next) => {
     ).sort({ 'updatedAt': -1 }).limit(10);
 });
 
-//POST
+//POST a new client (create client)
 router.post("/", (req, res, next) => { 
     primarydata.create( 
         req.body,
@@ -90,7 +90,7 @@ router.post("/", (req, res, next) => {
     primarydata.createdAt instanceof Date;
 });
 
-//PUT update (make sure req body doesn't have the id)
+//PUT out a client update (make sure req body doesn't have the id)
 router.put("/:id", (req, res, next) => { 
     primarydata.findOneAndUpdate(  
         { _id: req.params.id, organization_id : organization }, 
@@ -105,15 +105,16 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
-//DELETE attendee by id
+//DELETE client by id
 router.delete('/:id', function (req, res) {
     primarydata.findByIdAndRemove({_id: req.params.id, organization_id : organization})
-    eventdata.updateMany({attendees: req.params.id }, { $pullAll: {attendees: req.params.id }} )
+    eventdata.updateMany({attendees: req.params.id }, { $pull: {attendees: req.params.id }} )
+    .then (() => primarydata.findByIdAndRemove({_id: req.params.id, organization_id : organization}))
     .then(error => {
         if (!error) {return res.status(404).send({error: "ID not found"});}
         return res.send("ID successfully removed");
     })
-})
+});
 
 
 module.exports = router;

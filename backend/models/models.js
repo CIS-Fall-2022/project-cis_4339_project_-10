@@ -91,7 +91,7 @@ let eventDataSchema = new Schema({
         type: Array
     },
     organization_id: {
-        type: String,
+        type: String, default: orgID,
         required: true
     }
 }, {

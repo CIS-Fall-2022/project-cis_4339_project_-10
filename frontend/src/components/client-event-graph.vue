@@ -1,6 +1,15 @@
 <template>
+  <div class="graphChart">
     <canvas ref="myChart"></canvas>
+  </div>
   </template>
+
+  <style>
+  .graphChart {
+    width: 1500px;
+    margin: 0 auto;
+  }
+</style>
   
   <script>
   import { Chart, registerables } from 'chart.js'
@@ -32,7 +41,8 @@
         options: {
           scales: {
               y: {
-                  min: 100
+                  min: 0,
+                  max: 100
               }
           }
         }

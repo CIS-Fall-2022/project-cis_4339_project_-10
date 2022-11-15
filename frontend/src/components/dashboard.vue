@@ -4,12 +4,12 @@
       <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
     </div>
     <div class="column">
-        <h3>Bar Chart - Receiving Data from backend</h3>
+        <h3 class="text-center">Bar Chart - Receiving Data from backend</h3>
         <div>
           <div>
             <GraphBar
               v-if="!loading && !error"
-              :label="labels"
+              :label="events"
               :chart-data="attendees"
             ></GraphBar>
 
@@ -61,7 +61,7 @@ export default {
   },
   data() {
     return {
-      labels: [],
+      events: [],
       attendees: [],
       loading: false,
       error: null,
@@ -75,8 +75,8 @@ export default {
         const url = `http://localhost:3000/eventData/historical/`;
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
-        this.labels = response.data.map((item) => item.eventName);
-        this.attendees = response.data.map((item) => item.attendees);
+        this.events = response.data.map((item) => item.eventName);
+        this.attendees = response.data.map((item) => item.NumberAttendees);
       } catch (err) {
         if (err.response) {
           // client received an error response (5xx, 4xx)

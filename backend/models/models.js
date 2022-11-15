@@ -2,7 +2,8 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let org_id = process.env.org_id
+//OrgID defualt var 
+let orgID = process.env.orgID
 
 //collection for intakeData
 let primaryDataSchema = new Schema({
@@ -44,7 +45,7 @@ let primaryDataSchema = new Schema({
         }
     },
     organization_id: {
-        type: String, default: org_id,
+        type: String, default: orgID,
         required: true
     }
 }, {
@@ -90,8 +91,8 @@ let eventDataSchema = new Schema({
         type: Array
     },
     organization_id: {
-        type: String, default: org_id,
-        required: true 
+        type: String, default: orgID,
+        required: true
     }
 }, {
     collection: 'eventData'

@@ -191,10 +191,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           <div class="flex justify-between mt-10 mr-20">
             <button
-              @click="handleEventUpdate"
+              @click="handleEventDelete"
               type="submit"
               class="bg-red-700 text-white rounded"
+            >Delete Event</button>
+            <!-- Red means stop -->
+          </div>
+          <div class="flex justify-between mt-10 mr-5">
+            <button
+              @click="handleEventUpdate"
+              type="submit"
+              class="bg-green-700 text-white rounded"
             >Update Event</button>
+            <!-- Green means go -->
           </div>
           <div class="flex justify-between mt-10 mr-20">
             <button
@@ -220,6 +229,7 @@
                   <th class="p-4 text-left">Name</th>
                   <th class="p-4 text-left">City</th>
                   <th class="p-4 text-left">Phone Number</th>
+                  <th class="p-4 text-left">Edit</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-300">
@@ -233,6 +243,11 @@
                   >{{ client.attendeeFirstName + " " + client.attendeeLastName }}</td>
                   <td class="p-2 text-left">{{ client.attendeeCity }}</td>
                   <td class="p-2 text-left">{{ client.attendeePhoneNumber }}</td>
+                  <td><button
+                      @click="handleClientRemove"
+                      type="submit"
+                      class="bg-red-700 text-white rounded"
+                      >Remove</button></td>
                 </tr>
               </tbody>
             </table>
@@ -307,6 +322,7 @@ export default {
       });
   },
   methods: {
+    //correct datetime
     formattedDate(datetimeDB) {
       return DateTime.fromISO(datetimeDB).plus({ days: 1 }).toLocaleString();
     },
@@ -315,6 +331,16 @@ export default {
       let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/${this.id}`;
       axios.put(apiURL, this.event).then(() => {
         alert("Update has been saved.");
+        this.$router.back().catch((error) => {
+          console.log(error);
+        });
+      });
+    },
+    //Get the ID and remove the event while giving a message
+    handleEventDelete() {
+      let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/${this.id}`;
+      axios.delete(apiURL, this.event).then(() => {
+        alert("Event has been removed.");
         this.$router.back().catch((error) => {
           console.log(error);
         });

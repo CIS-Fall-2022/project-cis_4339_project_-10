@@ -12,7 +12,8 @@ Setup a .env file with the following variables, e.g.:
 
 ```
 MONGO_URL = mongodb+srv://<username>:<password>@cluster0.abcdc.mongodb.net/dbname
-ORGID = <ORGID> e.g UH
+ORGID = <ORGID> e.g. UH
+ORGNAME = <ORGNAME> e.g. University of Houston 
 
 ```
 

@@ -8,6 +8,9 @@ require("dotenv").config();
 //creates a new instance of express application
 const app = express();
 
+// Pass in dot env var for organization  name 
+const orgname = process.env.ORGNAME;
+
 // add cors header to the server
 app.use(cors({
   origin: '*'
@@ -42,6 +45,8 @@ app.use('/organizationData', organizationDataRoute)
 
 app.listen(PORT, () => {
   console.log("Server started listening on port : ", PORT);
+  // reports Organization ID and name instance 
+  console.log("Connected as organization : ", orgname) 
 });
 
 //error handler

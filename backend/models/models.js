@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //OrgID defualt var 
-orgID = process.env.orgID
+let orgID = process.env.orgID
 
 //collection for intakeData
 let primaryDataSchema = new Schema({

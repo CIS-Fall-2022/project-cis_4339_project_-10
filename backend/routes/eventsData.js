@@ -25,23 +25,23 @@ router.get("/", (req, res, next) => {
     ).sort({ 'updatedAt': -1 }).limit(10);
 });
 
-//GET count of all attendees per event for past 2 months 
+
 // moddate finds date of 2 months ago
-moddate.setMonth(currentdate.getMonth() - 2); 
+moddate.setMonth(currentdate.getMonth() - 2);
+//GET count of all attendees per event for past 2 months 
 router.get("/historical/", (req, res, next) => { 
     eventdata.aggregate([ 
-        {$match: {"organization_id" : "organization", "date" : { $gte : moddate }}},
-            // query section for attendee count, returns number
-            {atttendeeCount: {
-                $size: "$attendees"
-            }},  
+        { $match: {organization_id : organization , date : { $gte : moddate } }}, 
+            // query section for attendee count, rqeturns number
+            { $project : { eventName: '$eventName', NumberAttendees: {$size: '$attendees'} } }],  
         (error, data) => {
             if (error) {
                 return next(error);
             } else {
                 res.json(data);
             }
-        }])
+        }
+    )
 });
 
 //GET single entry by ID

@@ -108,6 +108,7 @@ router.put("/:id", (req, res, next) => {
 //DELETE attendee by id
 router.delete('/:id', function (req, res) {
     primarydata.findByIdAndRemove({_id: req.params.id, organization_id : organization})
+    // Need to add an evendata delete to remove attendee status from there as well 
     .then(error => {
         if (!error) {return res.status(404).send({error: "ID not found"});}
         return res.send("ID successfully removed");

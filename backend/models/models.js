@@ -2,6 +2,9 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//OrgID defualt var 
+orgID = process.env.orgID
+
 //collection for intakeData
 let primaryDataSchema = new Schema({
     _id: { type: String, default: uuid.v1 },
@@ -42,7 +45,7 @@ let primaryDataSchema = new Schema({
         }
     },
     organization_id: {
-        type: String,
+        type: String, default: orgID,
         required: true
     }
 }, {

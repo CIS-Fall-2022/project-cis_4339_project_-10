@@ -3,8 +3,9 @@
     <div>
       <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
     </div>
-    <div class="column">
-        <h3 class="text-center">Bar Chart - Receiving Data from backend</h3>
+    <!-- Bar Chart data for clients who signed up for an event the last 2 months -->
+    <div>
+        <h3 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Event Data For Past 2 Months</h3>
         <div>
           <div>
             <GraphBar
@@ -42,6 +43,10 @@
             <br />
           </div>
         </div>
+      </div>
+      <!-- Table showing same information as graph-->
+      <div>
+        <h3 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Table</h3>
       </div>
   </main>
 </template>

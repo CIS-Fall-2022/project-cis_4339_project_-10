@@ -201,7 +201,7 @@
             <button
               @click="handleEventUpdate"
               type="submit"
-              class="bg-green-700 text-white rounded"
+              class="bg-red-700 text-white rounded"
             >Update Event</button>
             <!-- Green means go -->
           </div>

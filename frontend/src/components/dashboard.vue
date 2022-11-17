@@ -3,13 +3,14 @@
     <div>
       <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
     </div>
-    <div class="column">
-        <h3>Bar Chart - Receiving Data from backend</h3>
+    <!-- Bar Chart data for clients who signed up for an event the last 2 months -->
+    <div>
+        <h3 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Event Data For Past 2 Months</h3>
         <div>
           <div>
             <GraphBar
               v-if="!loading && !error"
-              :label="labels"
+              :label="events"
               :chart-data="attendees"
             ></GraphBar>
 
@@ -61,7 +62,7 @@ export default {
   },
   data() {
     return {
-      labels: [],
+      events: [],
       attendees: [],
       loading: false,
       error: null,
@@ -75,7 +76,7 @@ export default {
         const url = `http://localhost:3000/eventData/historical/`;
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
-        this.labels = response.data.map((item) => item.eventName);
+        this.events = response.data.map((item) => item.eventName);
         this.attendees = response.data.map((item) => item.NumberAttendees);
       } catch (err) {
         if (err.response) {

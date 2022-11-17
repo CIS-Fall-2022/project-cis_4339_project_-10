@@ -11,7 +11,7 @@ let organization = process.env.ORGID
 let currentdate = new Date(Date());
 let moddate = new Date(Date());
 
-//GET all entries
+//GET all event entries
 router.get("/", (req, res, next) => { 
     eventdata.find(
         {organization_id : organization},  
@@ -44,7 +44,7 @@ router.get("/historical/", (req, res, next) => {
     )
 });
 
-//GET single entry by ID
+//GET a single event entry by ID
 router.get("/id/:id", (req, res, next) => { 
     eventdata.find({ _id: req.params.id, 
         organization_id : organization }, (error, data) => {
@@ -56,7 +56,7 @@ router.get("/id/:id", (req, res, next) => {
     })
 });
 
-//GET entries based on search query
+//GET event entries based on search query
 //Ex: '...?eventName=Food&searchBy=name' 
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
@@ -93,7 +93,7 @@ router.get("/client/:id", (req, res, next) => {
     );
 });
 
-//POST
+//POST a new event
 router.post("/", (req, res, next) => { 
     eventdata.create( 
         req.body, 
@@ -107,7 +107,7 @@ router.post("/", (req, res, next) => {
     );
 });
 
-//PUT
+//PUT an event update out based upon that event's ID
 router.put("/:id", (req, res, next) => {
     eventdata.findOneAndUpdate(
         { _id: req.params.id, organization_id : organization }, 
@@ -122,7 +122,7 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
-//PUT add attendee to event
+//PUT an attendee into an event
 router.put("/addAttendee/:id", (req, res, next) => {
     //only add attendee if not yet signed uo
     eventdata.find( 

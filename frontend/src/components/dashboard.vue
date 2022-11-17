@@ -13,7 +13,21 @@
               :label="events"
               :chart-data="attendees"
             ></GraphBar>
-
+            <br>
+            <table class="min-w-full shadow-md rounded">
+          <thead class="bg-gray-50 text-xl">
+            <tr>
+              <th class="p-4 text-left">Event</th>
+              <th class="p-4 text-left">Number of Attendees</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-300">
+            <tr v-for="event in queryData" :key="event._id">
+              <td class="p-2 text-left">{{ event.eventName}}</td>
+              <td class="p-2 text-left">{{ event.NumberAttendees}}</td>
+            </tr>
+          </tbody>
+        </table>
             <!-- Start of loading animation -->
             <div class="mt-40" v-if="loading">
               <p
@@ -52,16 +66,12 @@ import axios from "axios";
 import GraphBar from "@/components/client-event-graph.vue";
 
 export default {
-  methods: {
-    routePush(routeName) {
-      this.$router.push({ name: routeName });
-    },
-  },
   components: {
     GraphBar
   },
   data() {
     return {
+      queryData: [],
       events: [],
       attendees: [],
       loading: false,
@@ -69,13 +79,17 @@ export default {
     };
   },
   methods: {
+    routePush(routeName) {
+      this.$router.push({ name: routeName });
+    },
     async fetchData() {
       try {
         this.error = null;
         this.loading = true;
-        const url = `http://localhost:3000/eventData/historical/`;
-        const response = await axios.get(url);
+        let apiURL = import.meta.env.VITE_ROOT_API + `/eventData/historical/`;
+        const response = await axios.get(apiURL);
         //"re-organizing" - mapping json from the response
+        this.queryData = response.data 
         this.events = response.data.map((item) => item.eventName);
         this.attendees = response.data.map((item) => item.NumberAttendees);
       } catch (err) {

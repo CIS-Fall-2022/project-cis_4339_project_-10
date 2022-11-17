@@ -5,24 +5,14 @@ const router = express.Router();
 
 let { orgdata } = require("../models/models"); 
 
-//GET all entries
-router.get("/", (req, res, next) => { 
-    orgdata.find( 
-        (error, data) => {
-            if (error) {
-                return next(error);
-            } else {
-                res.json(data);
-            }
-        }
-    ).sort({ 'updatedAt': -1}).limit(10);
-});
+// Imports dot env Variable for Organization Instance
+let organization = process.env.ORGID
 
 
 //GET single entry by orgID
-router.get("/id/:id", (req, res, next) => {
+router.get("/", (req, res, next) => {
     orgdata.find(
-        { _id: req.params.id},
+        { _id: organization},
         (error, data) => {
             if (error) {
                 return next(error);

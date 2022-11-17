@@ -9,7 +9,7 @@ require("dotenv").config();
 const app = express();
 
 // Pass in dot env var for organization  name 
-const orgname = process.env.ORGNAME;
+const orgname = process.env.ORGID;
 
 // add cors header to the server
 app.use(cors({

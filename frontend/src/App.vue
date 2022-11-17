@@ -43,12 +43,13 @@
     </div>
     <div class="grow w-4/5">
       <section
+      v-for="orgname in organizationName" :key="orgname.orgName"
         class="justify-end items-center h-24 flex"
         style="
           background: linear-gradient(250deg, #C8102E 70%, #efecec 50.6%);
         "
       >
-        <h1 class="mr-20 text-3xl text-white">Dataplatform</h1>
+        <h1 v-once class="mr-20 text-3xl text-white" >{{ orgname }}</h1>
       </section>
       <div>
         <router-view></router-view>
@@ -58,9 +59,25 @@
 </template>
 
 <script>
+import axios from "axios";
+
+
+
 export default {
   name: "App",
+  data () { return {
+      organizationName: []
+    };
+  },
+mounted() {
+let apiURL = import.meta.env.VITE_ROOT_API + `/organizationData/`;
+axios.get(apiURL).then((resp) => {
+  this.organizationName =  resp.data.map((item) => item.orgName);
+});
+
+}
 };
+
 </script>
 
 <style>

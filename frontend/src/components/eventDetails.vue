@@ -240,17 +240,18 @@
                 >
                   <td
                     class="p-2 text-left"
-                  >{{ client.attendeeFirstName + " " + client.attendeeLastName }}</td>
+                  >{{ client.attendeeFirstName + " " + client.attendeeLastName }}
+                  </td>
                   <td class="p-2 text-left">{{ client.attendeeCity }}</td>
                   <td class="p-2 text-left">{{ client.attendeePhoneNumber }}</td>
-                  <td><button
-                      @click="handleClientRemove(client.attendeeID)"
-                      v-for="client in attendeeData"
-                      :key="client._id"
-                      type="submit"
+                  <td>
+                    <button
+                      @click.prevent="handleClientRemove(client.attendeeID)"
                       class="bg-red-700 text-white rounded"
-                      >Remove</button>
-                    </td>
+                    >
+                      Remove
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>

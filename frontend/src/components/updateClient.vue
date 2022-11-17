@@ -393,8 +393,8 @@ export default {
               :close-on-select="false"
               :clear-on-select="false"
               :preserve-search="true"
-              track-by="_id"
               :isLoading="true"
+              track-by="_id"
               label="eventName"
             ></VueMultiselect>
             <div class="flex justify-between">

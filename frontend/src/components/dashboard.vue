@@ -44,10 +44,6 @@
           </div>
         </div>
       </div>
-      <!-- Table showing same information as graph-->
-      <div>
-        <h3 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Table</h3>
-      </div>
   </main>
 </template>
 

@@ -115,26 +115,30 @@ export default {
       });
     },
     addToEvent() {
-      this.eventsChosen.forEach((event) => {
-        let apiURL =
-          import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
-        axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
-          this.clientEvents = [];
-          axios
-            .get(
-              import.meta.env.VITE_ROOT_API +
-                `/eventdata/client/${this.$route.params.id}`
-            )
-            .then((resp) => {
-              let data = resp.data;
-              for (let i = 0; i < data.length; i++) {
-                this.clientEvents.push({
-                  eventName: data[i].eventName,
-                });
-              }
-            });
+      const AddtoEvent = this.v$.$validate();
+      if (AddtoEvent) {
+        this.eventsChosen.forEach((event) => {
+          let apiURL =
+            import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
+          axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
+            alert('Client is signed up for the event.')
+            this.clientEvents = [];
+            axios
+              .get(
+                import.meta.env.VITE_ROOT_API +
+                  `/eventdata/client/${this.$route.params.id}`
+              )
+              .then((resp) => {
+                let data = resp.data;
+                for (let i = 0; i < data.length; i++) {
+                  this.clientEvents.push({
+                    eventName: data[i].eventName,
+                  });
+                }
+              });
+          });
         });
-      });
+      }
     },
   },
   validations() {

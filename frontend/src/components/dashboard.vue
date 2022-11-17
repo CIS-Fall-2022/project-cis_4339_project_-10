@@ -22,10 +22,9 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-300">
-            <tr @click="editClient(client._id)" v-for="client in queryData" :key="client._id">
-              <td class="p-2 text-left">{{ client.firstName + " " + client.lastName }}</td>
-              <td class="p-2 text-left">{{ client.phoneNumbers[0].primaryPhone }}</td>
-              <td class="p-2 text-left">{{ client.address.city }}</td>
+            <tr v-for="event in queryData" :key="event._id">
+              <td class="p-2 text-left">{{ event.eventName}}</td>
+              <td class="p-2 text-left">{{ event.NumberAttendees}}</td>
             </tr>
           </tbody>
         </table>
@@ -72,6 +71,7 @@ export default {
   },
   data() {
     return {
+      queryData: [],
       events: [],
       attendees: [],
       loading: false,
@@ -89,6 +89,7 @@ export default {
         let apiURL = import.meta.env.VITE_ROOT_API + `/eventData/historical/`;
         const response = await axios.get(apiURL);
         //"re-organizing" - mapping json from the response
+        this.queryData = response.data 
         this.events = response.data.map((item) => item.eventName);
         this.attendees = response.data.map((item) => item.NumberAttendees);
       } catch (err) {

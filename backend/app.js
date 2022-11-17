@@ -1,22 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const morgan = require("morgan"); //better debugging
+const morgan = require("morgan"); // better debugging
 const cors = require("cors");
-//allow using a .env file
+// allow using a .env file
 require("dotenv").config();   
 
-//creates a new instance of express application
+// creates a new instance of express application
 const app = express();
 
 // Pass in dot env var for organization  name 
-const orgname = process.env.ORGID;
+const orgid = process.env.ORGID;
 
 // add cors header to the server
 app.use(cors({
   origin: '*'
 }));
 
-//sets up mongoose for the mongoDB connection
+// sets up mongoose for the mongoDB connection
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
@@ -26,14 +26,14 @@ mongoose
     console.error("Mongo Connection Error", err);
   });
 
-//declare port number for the api
+// declare port number for the api
 const PORT = process.env.PORT || 3000;
 
-//setup
+// setup
 app.use(express.json());
 app.use(morgan("dev"));
 
-//import routes
+// import routes
 const primaryDataRoute  = require('./routes/primaryData');
 const eventsDataRoute  = require('./routes/eventsData');
 const organizationDataRoute  = require('./routes/organizationData');
@@ -45,11 +45,11 @@ app.use('/organizationData', organizationDataRoute)
 
 app.listen(PORT, () => {
   console.log("Server started listening on port : ", PORT);
-  // reports Organization ID and name instance 
-  console.log("Connected as organization : ", orgname) 
+  // reports Organization ID of instance 
+  console.log("Connected as organization : ", orgid) 
 });
 
-//error handler
+// error handler
 app.use(function (err, req, res, next) {
   // logs error and error code to console
   console.error(err.message, req);

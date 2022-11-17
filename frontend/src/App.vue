@@ -42,6 +42,7 @@
       </header>
     </div>
     <div class="grow w-4/5">
+      <!-- JS directive for taking Organization name out of array -->
       <section
       v-for="orgname in organizationName" :key="orgname.orgName"
         class="justify-end items-center h-24 flex"
@@ -60,9 +61,6 @@
 
 <script>
 import axios from "axios";
-
-
-
 export default {
   name: "App",
   data () { return {
@@ -70,14 +68,12 @@ export default {
     };
   },
 mounted() {
+// GET organization name from backend api call 
 let apiURL = import.meta.env.VITE_ROOT_API + `/organizationData/`;
 axios.get(apiURL).then((resp) => {
   this.organizationName =  resp.data.map((item) => item.orgName);
 });
-
-}
-};
-
+}};
 </script>
 
 <style>

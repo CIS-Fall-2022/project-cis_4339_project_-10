@@ -89,7 +89,7 @@ export default {
         let apiURL = import.meta.env.VITE_ROOT_API + `/eventData/historical/`;
         const response = await axios.get(apiURL);
         //"re-organizing" - mapping json from the response
-        this.queryData = response.data 
+        this.queryData = response.data // Variable For Seperate Data Table
         this.events = response.data.map((item) => item.eventName);
         this.attendees = response.data.map((item) => item.NumberAttendees);
       } catch (err) {

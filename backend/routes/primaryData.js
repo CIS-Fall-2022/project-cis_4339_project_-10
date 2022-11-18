@@ -107,8 +107,10 @@ router.put("/:id", (req, res, next) => {
 
 //DELETE client by id
 router.delete('/:id', function (req, res) {
-    primarydata.findByIdAndRemove({_id: req.params.id, organization_id : organization})
-    eventdata.updateMany({attendees: req.params.id }, { $pull: {attendees: req.params.id }} )
+    // Removes Client
+    primarydata.findByIdAndRemove({_id: req.params.id, organization_id : organization}) 
+    // Removes Client from events 
+    eventdata.updateMany({attendees: req.params.id }, { $pull: {attendees: req.params.id }} ) 
     .then (() => primarydata.findByIdAndRemove({_id: req.params.id, organization_id : organization}))
     .then(error => {
         if (!error) {return res.status(404).send({error: "ID not found"});}

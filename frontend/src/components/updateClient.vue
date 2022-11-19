@@ -97,7 +97,7 @@ export default {
     },
     // API request to Update Client Information
     handleClientUpdate() {
-      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/id/${this.id}`;
+      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/${this.id}`;
       axios.put(apiURL, this.client).then(() => {
         alert("Update has been saved.");
         this.$router.back().catch((error) => {
@@ -107,12 +107,12 @@ export default {
     },
     //Get the ID and delete the client while giving a message
     handleClientDelete() {
-      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/id/${this.id}`;
+      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/${this.id}`;
       axios.delete(apiURL, this.client).then(() => {
         alert("Client has been deleted.");
         this.$router.back().catch((error) => {
           console.log(error);
-        });
+        });  
       });
     },
     // API Request to add current client to selected events
@@ -133,7 +133,6 @@ export default {
               )
               .then((resp) => {
                 this.clientEvents = []; // Refresh listed client events
-                console.log(resp.data)
                 resp.data.forEach((event) => {
                   this.clientEvents.push({
                     eventName: event.eventName,
@@ -347,7 +346,7 @@ export default {
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           <div class="flex justify-between mt-10 mr-20">
             <button
-              @click="handleClientDelete"
+              @click="handleClientDelete()"
               type="submit"
               class="bg-red-700 text-white rounded"
               >Delete Client</button>

@@ -17,7 +17,8 @@ router.get("/", (req, res, next) => {
                 res.json(data);
             }
         }
-    ).sort({ 'updatedAt': -1}).limit(10);
+    // Places clients ascending order and only shows 25 clients max 
+    ).sort({ 'lastName': 1}).limit(25);
 });
 
 //GET single client entry by ID

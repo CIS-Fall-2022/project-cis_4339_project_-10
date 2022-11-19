@@ -351,7 +351,7 @@ export default {
             <button
               @click="handleClientUpdate"
               type="submit"
-              class="bg-red-700 text-white rounded
+              class="bg-red-700 text-white rounded"
             >Update Client</button>
           </div>
           <div class="flex justify-between mt-10 mr-20">

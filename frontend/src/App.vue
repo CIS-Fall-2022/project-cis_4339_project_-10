@@ -44,7 +44,7 @@
     <div class="grow w-4/5">
       <!-- JS directive for taking Organization name out of array -->
       <section
-      v-for="orgname in organizationName" :key="orgname.orgName"
+      v-for="orgname in organizationName" :key="orgname.organizationName"
         class="justify-end items-center h-24 flex"
         style="
           background: linear-gradient(250deg, #C8102E 70%, #efecec 50.6%);
@@ -71,7 +71,7 @@ mounted() {
 // GET organization name from backend api call 
 let apiURL = import.meta.env.VITE_ROOT_API + `/organizationData/`;
 axios.get(apiURL).then((resp) => {
-  this.organizationName =  resp.data.map((item) => item.orgName);
+  this.organizationName =  resp.data.map((item) => item.organizationName);
 });
 }};
 </script>

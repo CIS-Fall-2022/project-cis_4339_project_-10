@@ -56,6 +56,7 @@
               <textarea
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 rows="2"
+                v-model="event.description"
               ></textarea>
             </label>
           </div>
@@ -246,7 +247,7 @@
                   <td class="p-2 text-left">{{ client.attendeePhoneNumber }}</td>
                   <td>
                     <button
-                      @click.prevent="handleClientRemove(client.attendeeID)"
+                      @click="handleClientRemove(client.attendeeID), $router.go(-1);"
                       class="bg-red-700 text-white rounded"
                     >
                       Remove
@@ -353,16 +354,15 @@ export default {
     //Get the ID and remove the client from event while giving a message
     handleClientRemove(clientID) {
       let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/delAttendee/${clientID}/${this.id}`;
-      axios.delete(apiURL, this.event).then(() => {
+      axios.delete(apiURL).then(() => {
         alert("Attendee has been removed from event.");
-        this.$router.back().catch((error) => {
+        }).catch((error) => {
           console.log(error);
-        });
       });
     },
     editClient(clientID) {
       this.$router.push({ name: "updateclient", params: { id: clientID } });
-    },
+    }
   },
   // sets validations for the various data properties
   validations() {

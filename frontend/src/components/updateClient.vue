@@ -72,7 +72,6 @@ export default {
           `/eventdata/client/${this.$route.params.id}`
       )
       .then((resp) => {
-        let data = resp.data;
         resp.data.forEach((event) => {
           this.clientEvents.push({
             eventName: event.eventName,
@@ -80,6 +79,7 @@ export default {
           });
         });
       });
+      // API request for adding event list
     axios.get(import.meta.env.VITE_ROOT_API + `/eventdata`).then((resp) => {
       let data = resp.data;
       for (let i = 0; i < data.length; i++) {
@@ -95,6 +95,7 @@ export default {
     formattedDate(datetimeDB) {
       return DateTime.fromISO(datetimeDB).plus({ days: 1 }).toLocaleString();
     },
+    // API request to Update Client Information
     handleClientUpdate() {
       let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/${this.id}`;
       axios.put(apiURL, this.client).then(() => {
@@ -111,30 +112,33 @@ export default {
         alert("Client has been deleted.");
         this.$router.back().catch((error) => {
           console.log(error);
-        });
+        });  
       });
     },
+    // API Request to add current client to selected events
     addToEvent() {
-      const AddtoEvent = this.v$.$validate();
-      if (AddtoEvent) {
-        this.eventsChosen.forEach((event) => {
+      const AddtoEvent = this.v$.$validate(); // event validation
+      if (AddtoEvent) { 
+        this.eventsChosen.forEach((event) => { // loop to add multiple events 
           let apiURL =
             import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
+          // API call for adding attendee
           axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
             alert('Client is signed up for the event.')
-            this.clientEvents = [];
+            // API call to get new list of events for attendee
             axios
               .get(
                 import.meta.env.VITE_ROOT_API +
                   `/eventdata/client/${this.$route.params.id}`
               )
               .then((resp) => {
-                let data = resp.data;
-                for (let i = 0; i < data.length; i++) {
+                this.clientEvents = []; // Refresh listed client events
+                resp.data.forEach((event) => {
                   this.clientEvents.push({
-                    eventName: data[i].eventName,
+                    eventName: event.eventName,
+                    eventDate: event.date,
                   });
-                }
+                });
               });
           });
         });
@@ -342,7 +346,7 @@ export default {
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           <div class="flex justify-between mt-10 mr-20">
             <button
-              @click="handleClientDelete"
+              @click="handleClientDelete()"
               type="submit"
               class="bg-red-700 text-white rounded"
               >Delete Client</button>

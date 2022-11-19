@@ -22,7 +22,8 @@ router.get("/", (req, res, next) => {
                 res.json(data);
             }
         }
-    ).sort({ 'updatedAt': -1 }).limit(10);
+    // Sorts data decending order & Limits number of returned events to 25 Events
+    ).sort({ 'updatedAt': -1 }).limit(25); 
 });
 
 
@@ -41,7 +42,8 @@ router.get("/historical/", (req, res, next) => {
                 res.json(data);
             }
         }
-    )
+    // Sorts data decending order
+    ).sort({ 'updatedAt': -1 })  
 });
 
 //GET a single event entry by ID

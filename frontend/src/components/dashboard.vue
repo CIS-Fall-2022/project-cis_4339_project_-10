@@ -75,7 +75,7 @@ export default {
       events: [],
       attendees: [],
       loading: false,
-      error: null,
+      error: null
     };
   },
   methods: {
@@ -84,7 +84,6 @@ export default {
     },
     async fetchData() {
       try {
-        this.error = null;
         this.loading = true;
         let apiURL = import.meta.env.VITE_ROOT_API + `/eventData/historical/`;
         const response = await axios.get(apiURL);

@@ -100,7 +100,7 @@ let eventDataSchema = new Schema({
 
 //collection for organizationDate
 let organizationDataSchema = new Schema({
-    _id: { type: String, default: uuid.v1 },
+    _id: { type: String, default: orgID },
     organizationName: {
         type: String,
         require: true

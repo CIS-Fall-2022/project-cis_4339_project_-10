@@ -72,7 +72,6 @@ export default {
           `/eventdata/client/${this.$route.params.id}`
       )
       .then((resp) => {
-        let data = resp.data;
         resp.data.forEach((event) => {
           this.clientEvents.push({
             eventName: event.eventName,
@@ -80,6 +79,7 @@ export default {
           });
         });
       });
+      // API request for adding event list
     axios.get(import.meta.env.VITE_ROOT_API + `/eventdata`).then((resp) => {
       let data = resp.data;
       for (let i = 0; i < data.length; i++) {
@@ -95,8 +95,9 @@ export default {
     formattedDate(datetimeDB) {
       return DateTime.fromISO(datetimeDB).plus({ days: 1 }).toLocaleString();
     },
+    // API request to Update Client Information
     handleClientUpdate() {
-      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/${this.id}`;
+      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/id/${this.id}`;
       axios.put(apiURL, this.client).then(() => {
         alert("Update has been saved.");
         this.$router.back().catch((error) => {
@@ -106,7 +107,7 @@ export default {
     },
     //Get the ID and delete the client while giving a message
     handleClientDelete() {
-      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/${this.id}`;
+      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/id/${this.id}`;
       axios.delete(apiURL, this.client).then(() => {
         alert("Client has been deleted.");
         this.$router.back().catch((error) => {
@@ -114,27 +115,31 @@ export default {
         });
       });
     },
+    // API Request to add current client to selected events
     addToEvent() {
-      const AddtoEvent = this.v$.$validate();
-      if (AddtoEvent) {
-        this.eventsChosen.forEach((event) => {
+      const AddtoEvent = this.v$.$validate(); // event validation
+      if (AddtoEvent) { 
+        this.eventsChosen.forEach((event) => { // loop to add multiple events 
           let apiURL =
             import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
+          // API call for adding attendee
           axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
             alert('Client is signed up for the event.')
-            this.clientEvents = [];
+            // API call to get new list of events for attendee
             axios
               .get(
                 import.meta.env.VITE_ROOT_API +
                   `/eventdata/client/${this.$route.params.id}`
               )
               .then((resp) => {
-                let data = resp.data;
-                for (let i = 0; i < data.length; i++) {
+                this.clientEvents = []; // Refresh listed client events
+                console.log(resp.data)
+                resp.data.forEach((event) => {
                   this.clientEvents.push({
-                    eventName: data[i].eventName,
+                    eventName: event.eventName,
+                    eventDate: event.date,
                   });
-                }
+                });
               });
           });
         });

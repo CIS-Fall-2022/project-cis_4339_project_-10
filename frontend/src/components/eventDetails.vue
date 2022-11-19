@@ -240,14 +240,18 @@
                 >
                   <td
                     class="p-2 text-left"
-                  >{{ client.attendeeFirstName + " " + client.attendeeLastName }}</td>
+                  >{{ client.attendeeFirstName + " " + client.attendeeLastName }}
+                  </td>
                   <td class="p-2 text-left">{{ client.attendeeCity }}</td>
                   <td class="p-2 text-left">{{ client.attendeePhoneNumber }}</td>
-                  <td><button
-                      @click="handleClientRemove"
-                      type="submit"
+                  <td>
+                    <button
+                      @click.prevent="handleClientRemove(client.attendeeID)"
                       class="bg-red-700 text-white rounded"
-                      >Remove</button></td>
+                    >
+                      Remove
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -341,6 +345,16 @@ export default {
       let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/${this.id}`;
       axios.delete(apiURL, this.event).then(() => {
         alert("Event has been removed.");
+        this.$router.back().catch((error) => {
+          console.log(error);
+        });
+      });
+    },
+    //Get the ID and remove the client from event while giving a message
+    handleClientRemove(clientID) {
+      let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/delAttendee/${clientID}/${this.id}`;
+      axios.delete(apiURL, this.event).then(() => {
+        alert("Attendee has been removed from event.");
         this.$router.back().catch((error) => {
           console.log(error);
         });
